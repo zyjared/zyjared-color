@@ -15,6 +15,8 @@ pip install zyjared-color
 Create a styled text using the `Color` class:
 
 ```python
+from zyjared_color import Color
+
 text = Color('Hello World!').red().bold()
 print(text)
 ```
