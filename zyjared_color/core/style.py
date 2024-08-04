@@ -63,7 +63,7 @@ class Style:
             - `propagate`: 是否将 `style` 传递给 `children`
         """
         if propagate:
-            self.propagate()
+            return [self.__class__(child.text, {**child.style, **self.style}) for child in self.children]
         return [self.__class__(child.text, child._cp_style()) for child in self.children]
 
     def copy(self, propagate=False):

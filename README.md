@@ -2,8 +2,6 @@
 
 Personal font color utility library for Python, primarily used in PowerShell.
 
-> [release version](https://github.com/zyjared/kit-python/tree/main/pkgs/color)
-
 ## Installation
 
 ```sh

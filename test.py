@@ -1,4 +1,4 @@
-from zyjared_color import Color, ColorStatic, blue, red, italic, bold,underline
+from zyjared_color import Color, ColorStatic, blue, red, italic, bold, underline
 from zyjared_color.color import STYLES
 
 
@@ -9,6 +9,7 @@ def print_color(color: Color):
 def console(k: str):
     title = ColorStatic.cyan(k).bold().italic().cyan()
     text = italic(k)
+    print(bold(title + ": " + text + " " + red("done").bold()))
     return print(f'{title:<30}: ', getattr(text, k)())
 
 
