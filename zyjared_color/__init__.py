@@ -1,3 +1,3 @@
-from .color import Color  # noqa: F401
-from .static import ColorStatic  # noqa: F401
-from .alias import *  # noqa: F403
+from .base.color import Color  # noqa: F401
+from .base.static import ColorStatic  # noqa: F401
+from .base.alias import *  # noqa: F403

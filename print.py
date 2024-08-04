@@ -1,11 +1,15 @@
-from zyjared_color import Color
-from zyjared_color.color import STYLES
+# from zyjared_color import Color
+# from zyjared_color.base.color import STYLES
+
+from zyjared_color.html import ColorHTML as Color
+from zyjared_color.html.html import STYLES
 
 
 def print_color(k, v):
     title = Color(k).cyan().bold().italic()
-    text = getattr(Color(k), k)()
-    print(f'{title:<30}:{text}')
+    text = getattr(Color(k), k)() + '-12345'
+    print(f'{title:<30} -+-+-+- {text}')
+    # print(repr(text))
 
 
 def main():

@@ -19,9 +19,8 @@ def convert_to_style_list(cls: Type[_S], arr: List[str]):
 
 class Style:
 
-    def __init__(self, text: Optional[Union[str | _S]] = None, _style: Optional[Dict[_S, Any]] = None, _children: Optional[List[Union[_S, str]]] = None):
+    def __init__(self, text: Optional[Union[str | _S]] = None, _style: Optional[Dict[_S, Any]] = None, _children: Optional[List[Union[_S, str]]] = None, _propagate: Optional[bool] = True):
         """
-
         参数:
             - `text`:
                 - `Style`: 拷贝其属性, `_style` 和 `_children` 将作为扩展。
@@ -32,7 +31,8 @@ class Style:
             self.style = text._cp_style()
             if _style:
                 self.style = {**self.style, **_style}
-            self.children = text._cp_children(True) if text.children else []
+            self.children = text._cp_children(
+                _propagate) if text.children else []
             if _children:
                 self.children.extend(
                     convert_to_style_list(self.__class__, _children))
@@ -97,3 +97,24 @@ class Style:
             ]
         }
         return str(result)
+
+    # 字符串操作
+
+    def _to_str_shallow(self):
+        """
+        子类应当重写此方法
+        """
+        return self.text
+
+    def _to_str(self, propagate=True):
+        if self.children:
+            if propagate:
+                self.propagate()
+            return ''.join([c._to_str_shallow() for c in self.children])
+        return self._to_str_shallow()
+
+    def __str__(self):
+        return self._to_str()
+
+    def __format__(self, format_spec: str):
+        return f'{self._to_str():{format_spec}}'

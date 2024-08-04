@@ -1,5 +1,5 @@
 from typing import Dict, Any, TypeVar, Callable
-from .core import Style
+from ..core import Style
 
 __all = [
     "Color",
@@ -96,7 +96,7 @@ def gen_color_meta(styles: Dict[str, Any], callback: Callable[[str, Any], Callab
 
 class Color(Style, metaclass=gen_color_meta(STYLES)):
 
-    def __to_str_shallow(self):
+    def _to_str_shallow(self):
         if self.text:
             if self.style:
                 return f'\033[{';'.join([str(i) for i in self.style.values()])}m{self.text}\033[0m'
@@ -104,15 +104,3 @@ class Color(Style, metaclass=gen_color_meta(STYLES)):
                 return self.text
         else:
             return ""
-
-    def __to_str(self):
-        if self.children:
-            self.propagate()
-            return ''.join([c.__to_str_shallow() for c in self.children])
-        return self.__to_str_shallow()
-
-    def __str__(self):
-        return self.__to_str()
-
-    def __format__(self, format_spec: str):
-        return f'{self.__to_str():{format_spec}}'

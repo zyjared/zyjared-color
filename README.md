@@ -125,3 +125,12 @@ You can view all styles through the `ColorStatic` class method.
 - `bg_bright_magenta`
 - `bg_bright_cyan`
 - `bg_bright_white`
+
+## HTML / CSS
+
+```python
+from zyjared_color.html import ColorHTML
+
+text = ColorHTML('Hello World!').red().bold()
+print(text)
+```
