@@ -1,6 +1,6 @@
 # zyjared-color
 
-Personal font color utility library for Python, primarily used in PowerShell.
+Personal font color utility library for Python.
 
 ## Installation
 
@@ -24,9 +24,9 @@ print(text)
 You can achieve the same result using `StaticColor` class methods:
 
 ```python
-from zyjared_color import StaticColor as Colors
+from zyjared_color import StaticColor
 
-text = Colors.red('Hello World!').bold()
+text = StaticColor.red('Hello World!').bold()
 print(text)
 ```
 
@@ -75,7 +75,7 @@ print(text)
 ## HTML / CSS
 
 ```python
-from zyjared_color.html import ColorHtml as Color, StaticColorHtml as StaticColor
+from zyjared_color.html import ColorHtml, StaticColorHtml
 from zyjared_color.html import blue, red, bold, italic, underline, through
 
 text = ColorHtml('Hello World!').red().bold()
