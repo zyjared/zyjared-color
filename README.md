@@ -21,16 +21,16 @@ text = Color('Hello World!').red().bold()
 print(text)
 ```
 
-You can achieve the same result using `ColorStatic` class methods:
+You can achieve the same result using `StaticColor` class methods:
 
 ```python
-from zyjared_color import ColorStatic as Colors
+from zyjared_color import StaticColor as Colors
 
 text = Colors.red('Hello World!').bold()
 print(text)
 ```
 
-Or using convenience functions for styles:
+Or using aliases:
 
 ```python
 from zyjared_color import red, bold, italic
@@ -72,65 +72,29 @@ text.yellow()
 print(text)
 ```
 
-## All Styles
-
-You can view all styles through the `ColorStatic` class method.
-
-### styles
-
-- `bold`
-- `dim`
-- `italic`
-- `underline`
-- `through`
-- `reverse`
-- `blink`
-- `blink_fast`
-- `hidden`
-
-### frontground
-
-- `black`
-- `red`
-- `green`
-- `yellow`
-- `blue`
-- `magenta`
-- `cyan`
-- `white`
-- `bright_black`
-- `bright_red`
-- `bright_green`
-- `bright_yellow`
-- `bright_blue`
-- `bright_magenta`
-- `bright_cyan`
-- `bright_white`
-
-### background
-
-- `bg_black`
-- `bg_red`
-- `bg_green`
-- `bg_yellow`
-- `bg_blue`
-- `bg_magenta`
-- `bg_cyan`
-- `bg_white`
-- `bg_bright_black`
-- `bg_bright_red`
-- `bg_bright_green`
-- `bg_bright_yellow`
-- `bg_bright_blue`
-- `bg_bright_magenta`
-- `bg_bright_cyan`
-- `bg_bright_white`
-
 ## HTML / CSS
 
 ```python
-from zyjared_color.html import ColorHTML
+from zyjared_color.html import ColorHtml as Color, StaticColorHtml as StaticColor
+from zyjared_color.html import blue, red, bold, italic, underline, through
 
-text = ColorHTML('Hello World!').red().bold()
+text = ColorHtml('Hello World!').red().bold()
 print(text)
+
+# custom styles
+text = ColorHtml("Hello World!", {"opacity": 0.5, "font-weight": "bold"})
+print(text)
+```
+
+**example:** Display `ColorHtml` in Jupyter Notebook
+
+```python
+from zyjared_color.html import ColorHtml as Color, StaticColorHtml as StaticColor
+from zyjared_color.html import blue, red, bold, italic, underline, through
+from IPython.display import display, HTML
+
+text = Color('Hello World!').red().bold()
+
+# f'{text}' or str(text)
+display(HTML(f'{text}'))
 ```

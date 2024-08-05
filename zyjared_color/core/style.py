@@ -19,7 +19,7 @@ def convert_to_style_list(cls: Type[_S], arr: List[str]):
 
 class Style:
 
-    def __init__(self, text: Optional[Union[str | _S]] = None, _style: Optional[Dict[_S, Any]] = None, _children: Optional[List[Union[_S, str]]] = None, _propagate: Optional[bool] = True):
+    def __init__(self, text: Optional[Union[str | _S]] = None, _style: Optional[Dict[_S, Any]] = None, _children: Optional[List[Union[_S, str]]] = None):
         """
         参数:
             - `text`:
@@ -31,8 +31,7 @@ class Style:
             self.style = text._cp_style()
             if _style:
                 self.style = {**self.style, **_style}
-            self.children = text._cp_children(
-                _propagate) if text.children else []
+            self.children = text._cp_children(True) if text.children else []
             if _children:
                 self.children.extend(
                     convert_to_style_list(self.__class__, _children))
@@ -42,6 +41,30 @@ class Style:
             self.children = convert_to_style_list(
                 self.__class__, _children) if _children else []
 
+    def _compose_style(self) -> str:
+        """
+        self.text 和 self.style 合并的结果
+
+        子类应该会重写
+        """
+        return self.text
+
+    def _propagate_style(self) -> None:
+        """
+        传递 style 到 children
+        """
+        for k, v in self.style.items():
+            for s in self.children:
+                s.style[k] = v
+
+    def _compose_children(self) -> str:
+        """
+        style 和 self.children 合并的结果
+
+        如果不需要在最外层嵌套，则可以不用重写
+        """
+        return ''.join([c._compose_style() for c in self.children])
+
     def propagate(self):
         """
         如果 `children` 不为空, 则将 `style` 传递给 `children`
@@ -49,9 +72,7 @@ class Style:
         if not self.children:
             return self
 
-        for k, v in self.style.items():
-            for s in self.children:
-                s.style[k] = v
+        self._propagate_style()
         return self
 
     def _cp_style(self):
@@ -63,7 +84,7 @@ class Style:
             - `propagate`: 是否将 `style` 传递给 `children`
         """
         if propagate:
-            return [self.__class__(child.text, {**child.style, **self.style}) for child in self.children]
+            self.propagate()
         return [self.__class__(child.text, child._cp_style()) for child in self.children]
 
     def copy(self, propagate=False):
@@ -82,6 +103,16 @@ class Style:
         self.children.extend(color._cp_children(True))
         return self
 
+    def _to_str(self, propagate=True):
+        if self.children:
+            if propagate:
+                self.propagate()
+            return self._compose_children()
+        else:
+            if not self.style:
+                return self.text or ''
+            return self._compose_style()
+
     def __add__(self, other: Union[str, _S]):
         return self.__class__(_children=[self, other])
 
@@ -97,21 +128,6 @@ class Style:
             ]
         }
         return str(result)
-
-    # 字符串操作
-
-    def _to_str_shallow(self):
-        """
-        子类应当重写此方法
-        """
-        return self.text
-
-    def _to_str(self, propagate=True):
-        if self.children:
-            if propagate:
-                self.propagate()
-            return ''.join([c._to_str_shallow() for c in self.children])
-        return self._to_str_shallow()
 
     def __str__(self):
         return self._to_str()

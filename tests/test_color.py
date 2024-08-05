@@ -1,5 +1,5 @@
 from zyjared_color import Color
-from zyjared_color.color import STYLES
+from zyjared_color.base.styles import STYLES
 
 
 def styled(k: str):

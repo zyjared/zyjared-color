@@ -1,16 +1,16 @@
-from zyjared_color import ColorStatic, Color
-from zyjared_color.color import STYLES
+from zyjared_color import StaticColor, Color
+from zyjared_color.base.styles import STYLES
 
 
 def styled(k: str):
-    text = getattr(ColorStatic, k)(k)
+    text = getattr(StaticColor, k)(k)
     return text
 
 
 def nested(k: Color, styles: list[str]):
-    text = getattr(ColorStatic, k)(k)
+    text = getattr(StaticColor, k)(k)
     for s in styles:
-        text = getattr(ColorStatic, s)(text)
+        text = getattr(StaticColor, s)(text)
     return text
 
 

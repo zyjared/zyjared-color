@@ -1,8 +1,9 @@
-from typing import Union
+from typing import TypeVar, Union
 from .color import Color
 
+_T = TypeVar("_T", bound="StaticColor")
 
-class ColorStatic:
+class StaticColor:
     @staticmethod
     def bold(text: Union[str | Color]) -> Color: ...
     @staticmethod
