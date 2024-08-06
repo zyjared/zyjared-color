@@ -4,11 +4,6 @@ on:
   push:
     tags:
       - "v*"
-  workflow_run:
-    workflows: ["test"]
-    types:
-      - completed
-
 jobs:
   release:
     name: Publish
@@ -22,7 +17,11 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install poetry
+        run: |
+          pip install poetry
+          poetry install
+      - name: Test
+        run: poetry run pytest
       - name: Configure PyPI credentials
         env:
           PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
