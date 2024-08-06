@@ -1,8 +1,8 @@
-# from zyjared_color import Color
-# from zyjared_color.base.styles import STYLES
+from zyjared_color import Color
+from zyjared_color.base.styles import STYLES
 
-from zyjared_color.html import ColorHtml as Color
-from zyjared_color.html.styles import STYLES
+# from zyjared_color.html import ColorHtml as Color
+# from zyjared_color.html.styles import STYLES
 
 # from zyjared_color.test import ColorTest as Color
 # from zyjared_color.test.styles import STYLES

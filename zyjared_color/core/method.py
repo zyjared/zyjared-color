@@ -18,13 +18,12 @@ def _create_method(key: str, value: Any):
 def create_style_method_meta(styles: Dict[str, Any]):
     class StyleMethodMeta(type):
         def __new__(cls, name, bases, attrs):
-            ncls = super().__new__(cls, name, bases, attrs)
             for k, v in styles.items():
                 if isinstance(v, dict):
                     for k1, v1 in v.items():
-                        setattr(ncls, k1, _create_method(k, v1))
+                        attrs[k1] = _create_method(k, v1)
                 else:
-                    setattr(ncls, k, _create_method(k, v))
-            return ncls
+                    attrs[k] = _create_method(k, v)
+            return super().__new__(cls, name, bases, attrs)
 
     return StyleMethodMeta

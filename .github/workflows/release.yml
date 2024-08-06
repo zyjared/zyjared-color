@@ -4,28 +4,15 @@ on:
   push:
     tags:
       - "v*"
+  workflow_run:
+    workflows: ["test"]
+    types:
+      - completed
 
 jobs:
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Install dependencies
-        run: pip install pytest
-      - name: Run tests
-        run: pytest
-
   release:
     name: Publish
     runs-on: ubuntu-latest
-    needs: test
 
     steps:
       - name: Checkout repo
