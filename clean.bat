@@ -1,1 +1,0 @@
-zycli clean . -i tempCodeRunnerFile\.py -e $\..* -e env -e venv

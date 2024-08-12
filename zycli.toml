@@ -1,0 +1,5 @@
+# zyjared-cli 配置
+
+[clean]
+dirpath = "."
+include = ["zyjared_color/test", ".*pytest_cache", ".*ipynb_checkpoints"]

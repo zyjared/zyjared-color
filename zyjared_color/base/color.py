@@ -1,4 +1,4 @@
-from ..core import Style, create_style_method_meta
+from ..core import Style, create_style_method_meta, create_static_style_meta
 from .styles import STYLES
 import re
 
@@ -48,3 +48,7 @@ class Color(Style, metaclass=create_style_method_meta(STYLES)):
                 f'{int(ns[0]) + extra_n}'
             )
             return f'{text:{_spec}}'
+
+
+class StaticColor(metaclass=create_static_style_meta(Color, STYLES)):
+    pass

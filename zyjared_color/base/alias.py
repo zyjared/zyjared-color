@@ -1,4 +1,4 @@
-from .static import StaticColor
+from .color import StaticColor
 
 
 bold = StaticColor.bold
