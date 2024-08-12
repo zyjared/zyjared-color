@@ -19,6 +19,10 @@ def convert_to_style_list(cls: Type[_S], arr: List[str]):
 
 class Style:
 
+    text: str | None
+    style: dict
+    children: list[_S]
+
     def __init__(self, text: Optional[Union[str | _S]] = None, _style: Optional[Dict[_S, Any]] = None, _children: Optional[List[Union[_S, str]]] = None):
         """
         参数:
@@ -134,3 +138,8 @@ class Style:
 
     def __format__(self, format_spec: str):
         return f'{self._to_str():{format_spec}}'
+
+    def __len__(self):
+        if self.children:
+            return sum([len(c) for c in self.children])
+        return len(self.text)

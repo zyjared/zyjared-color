@@ -1,53 +1,51 @@
 from ..core import Style, create_style_method_meta, create_static_style_meta
 from .styles import STYLES
 import re
+from typing import TypeVar
+
+_C = TypeVar("_C", bound="Color")
 
 
 class Color(Style, metaclass=create_style_method_meta(STYLES)):
 
+    children: list[_C]
+
     def _compose_style(self):
         return f'\033[{';'.join([str(i) for i in self.style.values()])}m{self.text}\033[0m'
 
-    def _calc_extra_len(self):
-        if self.style:
-            return len(f'\033[{';'.join([str(i) for i in self.style.values()])}m\033[0m')
+    @property
+    def size(self):
+        if self.children:
+            return sum([c.size for c in self.children])
         else:
-            return 0
+            if self.style:
+                return len(self._compose_style())
+            else:
+                return len(self.text)
 
     def __format__(self, format_spec: str):
 
         # 无 format_spec
         if not format_spec:
-            return f'{self._to_str():{format_spec}}'
+            return super().__format__(format_spec)
 
         ns = re.findall(r'\d+', format_spec)
 
         # 无效 format_spec
         if not ns:
-            return f'{self._to_str():{format_spec}}'
+            return super().__format__(format_spec)
 
-        # -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        exc_size = self.size - len(self)
 
-        text = self._to_str()
+        # 无样式的情况
+        if exc_size <= 0:
+            return super().__format__(format_spec)
 
-        if self.children:
-            true_len = 0
-            for child in self.children:
-                if child.text:
-                    true_len += len(child.text)
-        else:
-            true_len = len(self.text)
-
-        extra_n = len(text) - true_len
-
-        if extra_n <= 0:
-            return f'{text:{format_spec}}'
-        else:
-            _spec = format_spec.replace(
-                ns[0],
-                f'{int(ns[0]) + extra_n}'
-            )
-            return f'{text:{_spec}}'
+        _spec = format_spec.replace(
+            ns[0],
+            f'{int(ns[0]) + exc_size}'
+        )
+        return f'{self._to_str():{_spec}}'
 
 
 class StaticColor(metaclass=create_static_style_meta(Color, STYLES)):

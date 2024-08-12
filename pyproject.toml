@@ -1,8 +1,12 @@
+[build-system]
+requires = [ "poetry-core",]
+build-backend = "poetry.core.masonry.api"
+
 [tool.poetry]
 name = "zyjared-color"
-version = "0.4.1"
+version = "0.4.2"
 description = "Personal font color utility library for Python"
-authors = ["zyjared <zyjared@outlook.com>"]
+authors = [ "zyjared <zyjared@outlook.com>",]
 readme = "README.md"
 
 [tool.poetry.urls]
@@ -15,7 +19,3 @@ python = "^3.12"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.2"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"

@@ -8,6 +8,9 @@ class Color:
         """
         ...
 
+    @property
+    def size(self) -> int: ...
+
     # styles
 
     def bold(self) -> Self: ...
@@ -20,7 +23,7 @@ class Color:
     def blink_fast(self) -> Self: ...
     def hidden(self) -> Self: ...
 
-    #region fg
+    # region fg
 
     def black(self) -> Self: ...
     def red(self) -> Self: ...
@@ -39,7 +42,7 @@ class Color:
     def bright_cyan(self) -> Self: ...
     def bright_white(self) -> Self: ...
 
-    #region bg
+    # region bg
 
     def bg_black(self) -> Self: ...
     def bg_red(self) -> Self: ...
@@ -59,8 +62,8 @@ class Color:
     def bg_bright_white(self) -> Self: ...
 
 
-
 _T = TypeVar("_T", bound="StaticColor")
+
 
 class StaticColor:
     @staticmethod
@@ -82,7 +85,7 @@ class StaticColor:
     @staticmethod
     def hidden(text: Union[str | Color]) -> Color: ...
 
-    #region static fg
+    # region static fg
 
     @staticmethod
     def black(text: Union[str | Color]) -> Color: ...
@@ -117,7 +120,7 @@ class StaticColor:
     @staticmethod
     def bright_white(text: Union[str | Color]) -> Color: ...
 
-    #region static bg
+    # region static bg
 
     @staticmethod
     def bg_black(text: Union[str | Color]) -> Color: ...

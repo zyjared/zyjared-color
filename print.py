@@ -10,9 +10,9 @@ from zyjared_color.base.styles import STYLES
 
 def print_color(k, v):
     title = Color(k).cyan().bold().italic()
-    text = getattr(Color(k), k)() + '-12345'
+    text: Color = getattr(Color(k), k)() + '-12345'
     print(Color(f'{title:<17} -+-+-+- {text}').bold().yellow())
-    # print(repr(text))
+    print(text.size)
 
 
 def main():
