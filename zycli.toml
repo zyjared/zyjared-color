@@ -2,4 +2,4 @@
 
 [clean]
 dirpath = "."
-include = ["zyjared_color/test", ".*pytest_cache", ".*ipynb_checkpoints"]
+include = ["tempCodeRunnerFile.py", ".*ipynb_checkpoints"]

@@ -1,4 +1,4 @@
-from ..core import Style, create_style_method_meta, create_static_style_meta
+from ..core import Style, create_style_method_meta
 from .styles import STYLES
 import re
 from typing import TypeVar
@@ -46,7 +46,3 @@ class Color(Style, metaclass=create_style_method_meta(STYLES)):
             f'{int(ns[0]) + exc_size}'
         )
         return f'{self._to_str():{_spec}}'
-
-
-class StaticColor(metaclass=create_static_style_meta(Color, STYLES)):
-    pass

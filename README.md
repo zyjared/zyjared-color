@@ -10,66 +10,13 @@ pip install zyjared-color
 
 ## Usage
 
-### Basic Usage
+```py
+from zyjared_color import color, Color
 
-Create a styled text using the `Color` class:
+content: Color = color('Hello World!').red() + ' --- test'
 
-```python
-from zyjared_color import Color
-
-text = Color('Hello World!').red().bold()
-print(text)
-```
-
-You can achieve the same result using `StaticColor` class methods:
-
-```python
-from zyjared_color import StaticColor
-
-text = StaticColor.red('Hello World!').bold()
-print(text)
-```
-
-Or using aliases:
-
-```python
-from zyjared_color import red, bold, italic
-
-text = red('Hello World!').bold()
-print(text)
-
-text = italic(text)
-print(text)
-```
-
-### Chaining Usage
-
-You can chain multiple style methods together:
-
-```python
-from zyjared_color import red
-
-text = red('Hello World!').bold().italic().underline().through()
-print(text)
-```
-
-### Nested Usage
-
-Combine different styling methods and functions:
-
-```python
-from zyjared_color import red, bold, italic, underline, through, blue
-
-text = through(underline(italic(bold(red('Hello World!')))))
-print(text)
-
-# add more text
-text = text + ' !!! ' + blue('Hello World!')
-print(text)
-
-# change text color
-text.yellow()
-print(text)
+text: str = f'{color("Hello World!").blue():<15} -+-+-+- test'
+content: Color = color(text)
 ```
 
 ## HTML / CSS
