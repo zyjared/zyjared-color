@@ -2,4 +2,4 @@
 
 [clean]
 dirpath = "."
-include = ["tempCodeRunnerFile.py", ".*ipynb_checkpoints"]
+pattern = ["tempCodeRunnerFile.py", ".*ipynb_checkpoints"]
