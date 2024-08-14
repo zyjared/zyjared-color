@@ -53,6 +53,12 @@ class Style:
         """
         return self.text
 
+    def __fcompose_style(self) -> str:
+        if self.style:
+            return self._compose_style()
+        else:
+            return self.text or ''
+
     def _propagate_style(self) -> None:
         """
         传递 style 到 children
@@ -67,7 +73,7 @@ class Style:
 
         如果不需要在最外层嵌套，则可以不用重写
         """
-        return ''.join([c._compose_style() for c in self.children])
+        return ''.join([c.__fcompose_style() for c in self.children])
 
     def propagate(self):
         """
@@ -113,9 +119,7 @@ class Style:
                 self.propagate()
             return self._compose_children()
         else:
-            if not self.style:
-                return self.text or ''
-            return self._compose_style()
+            return self.__fcompose_style()
 
     def __add__(self, other: Union[str, _S]):
         return self.__class__(_children=[self, other])

@@ -1,12 +1,9 @@
 from .color import Color
 from .extensions import color
-from typing import TypeVar
-
-_Color = TypeVar('_Color', bound=Color)
 
 
 def _alias(attr: str):
-    def alias(content: str | _Color) -> _Color:
+    def alias(content: str | Color) -> Color:
         return getattr(color(content), attr)()
     return alias
 

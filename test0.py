@@ -1,6 +1,7 @@
-from .color import Color
-from .styles import STYLES
+from zyjared_color import Color
+from zyjared_color.base.styles import STYLES
 import re
+from pprint import pprint
 
 _STYLES = {}
 for k, v in STYLES.items():
@@ -19,6 +20,7 @@ def _load0(info: tuple[str, str, str]):
         if v in _STYLES:
             style[_STYLES[v]] = int(v)
     return Color(info[1], _style=style)
+
 
 def _load(text: str):
     reg = r'\033\[(\d+(?:;\d+)*)m(.*?)\033\[0m|([^\033\[\d;]+)'
@@ -39,3 +41,15 @@ def color(content: str | Color):
         return content
     else:
         return _load(content)
+
+
+if __name__ == "__main__":
+    text0 = Color('Hello World!').red() + '  --- test'
+    text1 = f'{Color("Hello World!").blue():<30} -+-+-+- test'
+
+    print(f'{str(text0)!r}')
+    print(text0)
+    print(color(text0))
+
+    print(text1)
+    print(color(text1))
