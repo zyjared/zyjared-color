@@ -1,5 +1,3 @@
-# zyjared-cli 配置
-
 [clean]
 dirpath = "."
 pattern = ["tempCodeRunnerFile.py", ".*ipynb_checkpoints"]

@@ -1,22 +1,39 @@
 # zyjared-color
 
-Personal font color utility library for Python.
-
-## Installation
+## 安装
 
 ```sh
 pip install zyjared-color
 ```
 
-## Usage
+## 使用
 
 ```py
 from zyjared_color import color, Color
 
-content: Color = color('Hello World!').red() + ' --- test'
+content = color('Hello World!').red() + ' -+-+-+- test'
 
-text: str = f'{color("Hello World!").blue():<15} -+-+-+- test'
-content: Color = color(text)
+text = f'{color("Hello World!").blue():<15} -+-+-+- test'
+content = color(text)
+```
+
+### 拓展
+
+```py
+from zyjared_color import zprint
+
+zprint([
+    'Hello',
+    'World!',
+])
+
+zprint({
+    'Hello': 'World!'
+    'Hello': ['World!']
+    'Hello': {
+        'World!': 'Hello World!'
+    }
+})
 ```
 
 ## HTML / CSS
