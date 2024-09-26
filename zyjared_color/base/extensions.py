@@ -5,39 +5,51 @@ import re
 _STYLES_MAP = {}
 for k, v in STYLES.items():
     if isinstance(v, dict):
-        for _k1, v1 in v.items():
+        for _, v1 in v.items():
             _STYLES_MAP[f'{v1}'] = k
     else:
         _STYLES_MAP[f'{v}'] = k
 
 
-def _load0(info: tuple[str, str, str]):
-    '''
-    根据 regex 中的匹配结果生成 Color 对象
-    '''
-    if info[-1]:
-        return Color(info[-1])
-    style = {}
-    for v in info[0].split(';'):
-        if v in _STYLES_MAP:
-            style[_STYLES_MAP[v]] = int(v)
-    return Color(info[1], _style=style)
+def _parse(text: str):
+    array = []
+    sep_reg = r'(.*)(\033\[[\d;]+m)(.*)'
+    for v in text.split('\033[0m'):
+        if not v:
+            continue
+
+        groups = re.findall(sep_reg, v)
+
+        # 无样式文本
+
+        if not groups:
+            if v:
+                array.append({"text": v})
+            continue
+
+        if groups[0][0]:
+            array.append({"text": groups[0][0]})
+
+        # 样式与文本
+
+        if groups[0][2]:
+            styles_str: str = groups[0][1][2:-1]
+            styles = {_STYLES_MAP[v]: v for v in styles_str.split(
+                ';') if v in _STYLES_MAP}
+            array.append({"text": groups[0][2], "style": styles})
+
+    return array
+
 
 def _load(text: str):
     '''
     字符串中如果含有样式代码，将被解析为 Color 对象
     '''
-    reg = r'\033\[(\d+(?:;\d+)*)m(.*?)\033\[0m|([^\033\[\d;]+)'
-    groups = re.findall(reg, text)
-    if groups:
-        if len(groups) == 1:
-            return _load0(groups[0])
-        children = []
-        for group in groups:
-            children.append(_load0(group))
-        return Color('', _children=children)
+    array = _parse(text)
+    if len(array) > 1:
+        return Color(_children=[Color(v['text'], v.get('style', {})) for v in array])
     else:
-        return Color(text)
+        return Color(text, array[0].get('style', {}))
 
 
 def color(content: str | Color):
@@ -57,3 +69,17 @@ def str_has_style(text: str):
     检查字符串是否包含 ANSI 转义序列
     '''
     return bool(re.search(r'\033\[\d+', text))
+
+
+if __name__ == '__main__':
+    text = 'abc123\033[33mHello1\033[0mdef456\033[33mHello2\033[0mghi789'
+    array = _parse(text)
+    print('_parse: ', array)
+    print(color(text))
+
+    print('-' * 10)
+
+    text = "test"
+    array = _parse(text)
+    print('_parse: ', array)
+    print(color(text))

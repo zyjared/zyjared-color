@@ -1,5 +1,7 @@
-from zyjared_color import Color, color
+import sys
+from zyjared_color import color
 from zyjared_color.base.styles import STYLES
+# from pprint import pprint
 
 # from zyjared_color.html import ColorHtml as Color
 # from zyjared_color.html.styles import STYLES
@@ -8,26 +10,27 @@ from zyjared_color.base.styles import STYLES
 # from zyjared_color.test.styles import STYLES
 
 
-def print_color(k, v):
-    title = color(k).cyan().bold().italic()
-    text: Color = getattr(Color(k), k)() + '-12345'
-    print(Color(f'{title:<17} -+-+-+- {text}').bold().yellow())
-    print(text.size)
+def style(k):
+    return getattr(color(k), k)()
 
 
 def main():
+    dic = {}
+
     for k, v in STYLES.items():
         if isinstance(v, dict):
-            for k1, v1 in v.items():
-                print_color(k1, v1)
+            for k1, _ in v.items():
+                dic[k1] = style(k1)
         else:
-            print_color(k, v)
+            dic[k] = style(k)
+
+    # pprint(dic)
+    max_key_len = max([len(k) for k in dic.keys()])
+    for k, v in dic.items():
+        sys.stdout.write(f"{k:<{max_key_len}}: {v}\n")
+
+    sys.stdout.flush()
 
 
 if __name__ == "__main__":
     main()
-
-    content: Color = color('Hello World!').red() + ' --- test'
-
-    text: str = f'{color("Hello World!").blue():<15} -+-+-+- test'
-    content: Color = color(text)
