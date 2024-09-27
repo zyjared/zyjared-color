@@ -7,6 +7,14 @@ _C = TypeVar("_C", bound="Color")
 
 
 class Color(Style, metaclass=create_style_method_meta(STYLES)):
+    '''
+    如果文本已有 ANSI 的样式，请使用 `color(content)` 函数, `color(content)` 更加通用。
+
+    Example:
+
+    >>> from zyjared_color import Color
+    >>> Color('hello world').red().bold()
+    '''
 
     children: list[_C]
 

@@ -9,7 +9,6 @@ from zyjared_color.base.styles import STYLES
 # from zyjared_color.test import ColorTest as Color
 # from zyjared_color.test.styles import STYLES
 
-
 def style(k):
     return getattr(color(k), k)()
 

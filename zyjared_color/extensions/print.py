@@ -110,23 +110,23 @@ def print_dict(dic: dict, *, blank: int = 0, force_color_key=False, sep=DICT_SEP
     sys.stdout.flush()
 
 
-def zprint(content: str | Color | list | dict, *args, **kwargs):
+def zprint(content: str | Color | list | dict, *, blank = 0, sep = ':', force_color = False):
     '''
     按照一定格式打印，通常打印列表、字典，会做一定的美化。
 
     若无必要，请使用 `print` 或者 `pprint`。
 
-    参数
-      - `blank`: 空格数
-      - 字典参数 `sep`:  key 与 value 的分隔符
-      - 字典参数 `force_color`: 如果 key 包含颜色代码，是否继续转换
+    :param content: 需要打印的内容
+    :param blank: `dict` | `list` 空格数
+    :param sep: `dict` key 与 value 的分隔符
+    :param force_color: `dict` 如果 key 包含颜色代码，是否继续转换
     '''
     if isinstance(content,  dict):
         print_dict(content,
-                   blank=kwargs.get('blank', 0),
-                   sep=kwargs.get('sep', DICT_SEP),
-                   force_color_key=kwargs.get('force_color', False))
+                   blank=blank,
+                   sep=sep,
+                   force_color_key=force_color)
     elif isinstance(content, list):
-        print_list(content, blank=kwargs.get('blank', 0))
+        print_list(content, blank=blank)
     else:
-        print(content, *args, **kwargs)
+        print(content)

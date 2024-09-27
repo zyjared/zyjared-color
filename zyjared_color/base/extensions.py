@@ -54,9 +54,27 @@ def _load(text: str):
 
 def color(content: str | Color):
     '''
-    将一个字符串或 Color 对象转换为 Color 对象。
+    将字符串转换为 Color 对象
 
-    若字符串含有 ANSI 转义序列，也能转换为 Color 对象
+    Example:
+
+    ```python
+    # 链式调用
+    c1 = color('Hello World!').red().bold()
+
+    # 不用顾及参数是否为 Color 类型
+    c2 = color(c1)
+
+    # 保留原始样式，或选择改变
+    c3 = color('\\033[33mHello World!\\033[0m test').bold()
+
+    # 拼接
+    c4 = c1 + 'test'
+    c4.bold() # 拼接后为 Color 对象，可以继续调用
+
+    # format
+    c5 = color(f'{c1:<15}test')
+    ```
     '''
     if isinstance(content, Color):
         return content

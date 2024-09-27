@@ -9,12 +9,20 @@ pip install zyjared-color
 ## 使用
 
 ```py
-from zyjared_color import color, Color
+from zyjared_color import color, blue, red
 
-content = color('Hello World!').red() + ' -+-+-+- test'
+# 基本使用
+content = color('Hello World!').red() + ' - test'
+print(content.bold()) # content 可以继续调用
 
-text = f'{color("Hello World!").blue():<15} -+-+-+- test'
-content = color(text)
+# 自由转换
+text = f'{color("Hello World!").blue():<15} - test'
+content = color(text).yellow()
+print(content)
+
+# 使用别名
+print(blue('Hello World!'))
+print(red('Hello World!').bold())
 ```
 
 ### 拓展
