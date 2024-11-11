@@ -45,3 +45,12 @@ STYLES = {
         "bg_bright_white": 107,
     }
 }
+
+
+def get_style_names():
+    lst = list(STYLES.keys())
+    lst.remove("fg")
+    lst.remove("bg")
+    lst.extend(STYLES["fg"].keys())
+    lst.extend(STYLES["bg"].keys())
+    return lst

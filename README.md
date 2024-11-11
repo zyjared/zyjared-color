@@ -27,6 +27,10 @@ print(red('Hello World!').bold())
 
 ### 拓展
 
+#### `zprint`
+
+需要使用 `print` 打印列表或者字典时可以使用。
+
 ```py
 from zyjared_color import zprint
 

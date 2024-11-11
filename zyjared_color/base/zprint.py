@@ -1,5 +1,5 @@
-from ..base.color import Color
-from ..base.extensions import color
+from .color import Color
+from .main import color
 import sys
 
 __all__ = [
@@ -110,7 +110,7 @@ def print_dict(dic: dict, *, blank: int = 0, force_color_key=False, sep=DICT_SEP
     sys.stdout.flush()
 
 
-def zprint(content: str | Color | list | dict, *, blank = 0, sep = ':', force_color = False):
+def zprint(content: str | Color | list | dict, *, blank=0, sep=DICT_SEP, force_color=False):
     '''
     按照一定格式打印，通常打印列表、字典，会做一定的美化。
 

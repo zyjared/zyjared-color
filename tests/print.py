@@ -9,6 +9,7 @@ from zyjared_color.base.styles import STYLES
 # from zyjared_color.test import ColorTest as Color
 # from zyjared_color.test.styles import STYLES
 
+
 def style(k):
     return getattr(color(k), k)()
 
@@ -31,5 +32,5 @@ def main():
     sys.stdout.flush()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

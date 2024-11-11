@@ -3,16 +3,25 @@ from .styles import STYLES
 import re
 
 _STYLES_MAP = {}
-for k, v in STYLES.items():
-    if isinstance(v, dict):
-        for _, v1 in v.items():
-            _STYLES_MAP[f'{v1}'] = k
-    else:
-        _STYLES_MAP[f'{v}'] = k
+
+
+def _init_style_map():
+    if len(_STYLES_MAP):
+        return
+
+    for k, v in STYLES.items():
+        if isinstance(v, dict):
+            for _, v1 in v.items():
+                _STYLES_MAP[f'{v1}'] = k
+        else:
+            _STYLES_MAP[f'{v}'] = k
+
+
+_init_style_map()
 
 
 def _parse(text: str):
-    array = []
+    array: list[dict] = []
     sep_reg = r'(.*)(\033\[[\d;]+m)(.*)'
     for v in text.split('\033[0m'):
         if not v:
@@ -41,17 +50,6 @@ def _parse(text: str):
     return array
 
 
-def _load(text: str):
-    '''
-    字符串中如果含有样式代码，将被解析为 Color 对象
-    '''
-    array = _parse(text)
-    if len(array) > 1:
-        return Color(_children=[Color(v['text'], v.get('style', {})) for v in array])
-    else:
-        return Color(text, array[0].get('style', {}))
-
-
 def color(content: str | Color):
     '''
     将字符串转换为 Color 对象
@@ -78,26 +76,15 @@ def color(content: str | Color):
     '''
     if isinstance(content, Color):
         return content
+
+    array = _parse(content)
+    if len(array):
+        return Color(
+            _children=[
+                Color(
+                    v['text'],
+                    v.get('style', {})
+                ) for v in array
+            ])
     else:
-        return _load(content)
-
-
-def str_has_style(text: str):
-    '''
-    检查字符串是否包含 ANSI 转义序列
-    '''
-    return bool(re.search(r'\033\[\d+', text))
-
-
-if __name__ == '__main__':
-    text = 'abc123\033[33mHello1\033[0mdef456\033[33mHello2\033[0mghi789'
-    array = _parse(text)
-    print('_parse: ', array)
-    print(color(text))
-
-    print('-' * 10)
-
-    text = "test"
-    array = _parse(text)
-    print('_parse: ', array)
-    print(color(text))
+        return Color(content)
