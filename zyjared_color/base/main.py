@@ -2,22 +2,16 @@ from .color import Color
 from .styles import STYLES
 import re
 
+__all__ = ["Color", "color"]
+
 _STYLES_MAP = {}
 
-
-def _init_style_map():
-    if len(_STYLES_MAP):
-        return
-
-    for k, v in STYLES.items():
-        if isinstance(v, dict):
-            for _, v1 in v.items():
-                _STYLES_MAP[f'{v1}'] = k
-        else:
-            _STYLES_MAP[f'{v}'] = k
-
-
-_init_style_map()
+for k, v in STYLES.items():
+    if isinstance(v, dict):
+        for _, v1 in v.items():
+            _STYLES_MAP[f'{v1}'] = k
+    else:
+        _STYLES_MAP[f'{v}'] = k
 
 
 def _parse(text: str):
@@ -78,7 +72,7 @@ def color(content: str | Color):
         return content
 
     array = _parse(content)
-    if len(array):
+    if len(array) > 1:
         return Color(
             _children=[
                 Color(
@@ -87,4 +81,4 @@ def color(content: str | Color):
                 ) for v in array
             ])
     else:
-        return Color(content)
+        return Color(content, array[0].get('style', {}))
